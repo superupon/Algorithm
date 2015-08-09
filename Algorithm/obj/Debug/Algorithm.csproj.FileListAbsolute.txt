@@ -1,0 +1,6 @@
+C:\Users\Jacob\Documents\Visual Studio 2013\Projects\AlgorithmDLL\Algorithm\obj\Debug\Algorithm.csprojResolveAssemblyReference.cache
+C:\Users\Jacob\Documents\Visual Studio 2013\Projects\AlgorithmDLL\Algorithm\bin\Debug\Algorithm.exe
+C:\Users\Jacob\Documents\Visual Studio 2013\Projects\AlgorithmDLL\Algorithm\bin\Debug\Algorithm.pdb
+C:\Users\Jacob\Documents\Visual Studio 2013\Projects\AlgorithmDLL\Algorithm\bin\Debug\halcondotnet.xml
+C:\Users\Jacob\Documents\Visual Studio 2013\Projects\AlgorithmDLL\Algorithm\obj\Debug\Algorithm.exe
+C:\Users\Jacob\Documents\Visual Studio 2013\Projects\AlgorithmDLL\Algorithm\obj\Debug\Algorithm.pdb
