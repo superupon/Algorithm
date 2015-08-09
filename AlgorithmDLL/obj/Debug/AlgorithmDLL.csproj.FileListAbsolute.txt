@@ -1,0 +1,6 @@
+C:\Users\Jacob\Documents\Visual Studio 2013\Projects\AlgorithmDLL\AlgorithmDLL\bin\Debug\AlgorithmDLL.exe.config
+C:\Users\Jacob\Documents\Visual Studio 2013\Projects\AlgorithmDLL\AlgorithmDLL\bin\Debug\AlgorithmDLL.exe
+C:\Users\Jacob\Documents\Visual Studio 2013\Projects\AlgorithmDLL\AlgorithmDLL\bin\Debug\AlgorithmDLL.pdb
+C:\Users\Jacob\Documents\Visual Studio 2013\Projects\AlgorithmDLL\AlgorithmDLL\obj\Debug\AlgorithmDLL.csprojResolveAssemblyReference.cache
+C:\Users\Jacob\Documents\Visual Studio 2013\Projects\AlgorithmDLL\AlgorithmDLL\obj\Debug\AlgorithmDLL.exe
+C:\Users\Jacob\Documents\Visual Studio 2013\Projects\AlgorithmDLL\AlgorithmDLL\obj\Debug\AlgorithmDLL.pdb
