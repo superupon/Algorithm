@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HalconDotNet;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 namespace Algorithm
 {
 
@@ -271,8 +272,8 @@ namespace Algorithm
     {
         // Procedures 
         // Local procedures 
-        public static void Halcon_Train(string bitmap_train_init, double row1, double column1, 
-            double row2, double column2, double row, double column, double radius, string train_bitmaps, int times,
+        public static void Halcon_Train(string bitmap_train_init, double row1, double column1,
+            double row2, double column2, double row, double column, double radius, string train_bitmaps,
             out byte[] minimum, out byte[] maximum)
         {
             HTuple ModelID = null;
@@ -298,39 +299,61 @@ namespace Algorithm
 
             GenerateFuctions.Normal_Train_Init(hImage, out circle, row1, column1, row2, column2, row, column, radius,
                 out ModelID, out  rstd, out cstd, out VmodleR, out VmodleG, out VmodleB);
+            string[] bitmapFiles = Directory.GetFiles(train_bitmaps);
+
+            foreach(string picture in bitmapFiles)
+            {
+                Bitmap pic = new Bitmap(picture);
+                Rectangle rec = new Rectangle(0, 0, pic.Width, pic.Height);
+                BitmapData picData = pic.LockBits(rec, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
+                IntPtr pPic = picData.Scan0;
+            //pPixels = pBitmap; 
+
+                HImage image = new HImage();
+                image.GenImage1("byte", pic.Width, pic.Height, pPic);
+                GenerateFuctions.Normal_Train(image, circle, ModelID, rstd, cstd, VmodleR, VmodleG, VmodleB);
+            }
+            HObject h_min = null, h_max = null;
+            HOperatorSet.GenEmptyObj(out h_min);
+            HOperatorSet.GenEmptyObj(out h_max);
+            GenerateFuctions.Normal_Finish_Init(out h_min, out h_max, VmodleR, VmodleG, VmodleB);
+            HImage min = h_min as HImage;
+            HImage max = h_max as HImage;
+            minimum = min.GetImagePointer1()
+
         }
 
         public static void Halcon_Inspect(string image, double row, double column, double radius, out byte[] imageAffinTrans,
             out byte[] selectedRegions, int ModelID, double rstd, double cstd,
             double VmodleR, double VmodleG, double VmodleB, double minarea)
         {
-            
-            
+
+
         }
         public static void Main()
         {
             Bitmap bitmap = new Bitmap(@"C:\Users\Jacob\Downloads\deco\deco\MANUAL_20100514143231_0_0000_R.bmp");
-            Rectangle rect = new Rectangle(0,0, bitmap.Width, bitmap.Height);
-            BitmapData bmData = bitmap.LockBits(rect, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format8bppIndexed); 
-            IntPtr pBitmap = bmData.Scan0; 
+            Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            BitmapData bmData = bitmap.LockBits(rect, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
+            IntPtr pBitmap = bmData.Scan0;
             //pPixels = pBitmap; 
 
             HImage hImage = new HImage();
-            hImage.GenImage1("byte", bitmap.Width, bitmap.Height, pBitmap); 
+            hImage.GenImage1("byte", bitmap.Width, bitmap.Height, pBitmap);
 
-            
-            bitmap.UnlockBits(bmData); 
+
+            bitmap.UnlockBits(bmData);
 
             HObject circle = null;
             HOperatorSet.GenEmptyObj(out circle);
             HTuple ModelID;
             HTuple rstd;
             HTuple cstd;
-            HTuple VmodleR,VmodleG,VmodleB;
-            
-            GenerateFuctions.Normal_Train_Init(hImage,out circle, 27.6, 48.7, 239.1, 338.3, 139, 186.6, 85.1, 
-                out ModelID,out  rstd, out cstd, out VmodleR, out VmodleG, out VmodleB);
-            
+            HTuple VmodleR, VmodleG, VmodleB;
+
+            GenerateFuctions.Normal_Train_Init(hImage, out circle, 27.6, 48.7, 239.1, 338.3, 139, 186.6, 85.1,
+                out ModelID, out  rstd, out cstd, out VmodleR, out VmodleG, out VmodleB);
+
 
         }
     }
