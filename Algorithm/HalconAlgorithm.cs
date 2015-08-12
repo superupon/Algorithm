@@ -274,7 +274,7 @@ namespace Algorithm
         // Local procedures 
         public static void Halcon_Train(string bitmap_train_init, double row1, double column1,
             double row2, double column2, double row, double column, double radius, string train_bitmaps,
-            out byte[] minimum, out byte[] maximum)
+            out IntPtr minimum, out int min_width, out int min_height, out IntPtr maximum)
         {
             HTuple ModelID = null;
             HTuple rstd = null, cstd = null;
@@ -307,7 +307,6 @@ namespace Algorithm
                 Rectangle rec = new Rectangle(0, 0, pic.Width, pic.Height);
                 BitmapData picData = pic.LockBits(rec, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
                 IntPtr pPic = picData.Scan0;
-            //pPixels = pBitmap; 
 
                 HImage image = new HImage();
                 image.GenImage1("byte", pic.Width, pic.Height, pPic);
@@ -319,20 +318,22 @@ namespace Algorithm
             GenerateFuctions.Normal_Finish_Init(out h_min, out h_max, VmodleR, VmodleG, VmodleB);
             HImage min = h_min as HImage;
             HImage max = h_max as HImage;
-            minimum = min.GetImagePointer1()
-
+            string type = string.Empty;
+            int width = 0, height = 0;
+            minimum = min.GetImagePointer1(out type, out min_width, out min_height);
+            maximum = max.GetImagePointer1(out type, out width, out height);
         }
 
-        public static void Halcon_Inspect(string image, double row, double column, double radius, out byte[] imageAffinTrans,
-            out byte[] selectedRegions, int ModelID, double rstd, double cstd,
-            double VmodleR, double VmodleG, double VmodleB, double minarea)
-        {
+        //public static void Halcon_Inspect(string image, double row, double column, double radius, out byte[] imageAffinTrans,
+        //    out byte[] selectedRegions, int ModelID, double rstd, double cstd,
+        //    double VmodleR, double VmodleG, double VmodleB, double minarea)
+        //{
 
 
-        }
+        //}
         public static void Main()
         {
-            Bitmap bitmap = new Bitmap(@"C:\Users\Jacob\Downloads\deco\deco\MANUAL_20100514143231_0_0000_R.bmp");
+            Bitmap bitmap = new Bitmap(@"C:\Users\yuczhang\Downloads\deco\deco\MANUAL_20100514143231_0_0000_R.bmp");
             Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
             BitmapData bmData = bitmap.LockBits(rect, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
             IntPtr pBitmap = bmData.Scan0;
@@ -353,8 +354,17 @@ namespace Algorithm
 
             GenerateFuctions.Normal_Train_Init(hImage, out circle, 27.6, 48.7, 239.1, 338.3, 139, 186.6, 85.1,
                 out ModelID, out  rstd, out cstd, out VmodleR, out VmodleG, out VmodleB);
-
-
+            IntPtr p = IntPtr.Zero;
+            IntPtr q = IntPtr.Zero;
+            int width = 0;
+            int height = 0;
+            Halcon_Train(@"C:\Users\yuczhang\Downloads\deco\deco\MANUAL_20100514143231_0_0000_R.bmp", 27.6, 48.7, 239.1, 338.3, 139, 186.6, 85.1, 
+            @"C:\Users\yuczhang\Downloads\deco\deco\", out p, out width, out height, out q);
+            Bitmap bmp = new Bitmap(width, height, width, PixelFormat.Format8bppIndexed, p);
+            bmp.Save("f:\a.bmp");
+            
+            
+            
         }
     }
 }
